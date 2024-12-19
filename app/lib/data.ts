@@ -19,7 +19,7 @@ export async function fetchRevenue() {
     // Artificially delay a response for demo purposes.
     // Don't do this in production :)
 
-    console.log('Fetching revenue data...');
+    console.log('Fetching revenue data slowly...');
     await new Promise((resolve) => setTimeout(resolve, 2000));
 
     const data = await sql<Revenue>`SELECT * FROM revenue`;
@@ -33,7 +33,7 @@ export async function fetchRevenue() {
   }
 }
 
-export async function fetchLatestInvoices() {
+export async function fetchLatestInvoices() { //chapter 7
   noStore();
   try {
     const data = await sql<LatestInvoiceRaw>`
@@ -57,6 +57,10 @@ export async function fetchLatestInvoices() {
 export async function fetchCardData() {
   noStore();
   try {
+    // could have used :
+    // const totalInvoices = allInvoices.length;
+    // const totalCustomers = allCustomers.length;
+
     // You can probably combine these into a single SQL query
     // However, we are intentionally splitting them to demonstrate
     // how to initialize multiple queries in parallel with JS.
@@ -167,7 +171,7 @@ export async function fetchInvoiceById(id: string) {
       // Convert amount from cents to dollars
       amount: invoice.amount / 100,
     }));
-console.log('in', invoice[0]);
+console.log('invoice by id: ', invoice[0], ' full: ', invoice);
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);
@@ -235,3 +239,9 @@ export async function getUser(email: string) {
     throw new Error('Failed to fetch user.');
   }
 }
+
+// listInvoices() - chapter 6
+// SELECT invoices.amount, customers.name
+// FROM invoices
+// JOIN customers ON invoices.customer_id = customers.id
+// WHERE invoices.amount = 666;

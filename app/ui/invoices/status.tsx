@@ -12,6 +12,7 @@ export default function InvoiceStatus({ status }: { status: string }) {
         },
       )}
     >
+      {/* if status === truth then is will display that specific colour and icon */}
       {status === 'pending' ? (
         <>
           Pending

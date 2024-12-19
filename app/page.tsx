@@ -14,10 +14,15 @@ export default function Page() {
       <div className="mt-4 flex grow flex-col gap-4 md:flex-row">
         <div className="flex flex-col justify-center gap-6 rounded-lg bg-gray-50 px-6 py-10 md:w-2/5 md:px-20">
         <div className={styles.shape} />
-        <div>2 shapes</div>
+        <div>3 shapes</div>
         <div
-  className="h-0 w-0 border-b-[30px] border-l-[20px] border-r-[20px] border-b-black border-l-transparent border-r-transparent"
-/>
+          className="h-0 w-0 border-b-[30px] border-l-[20px] border-r-[20px] border-b-black border-l-transparent border-r-transparent"
+        />
+{/* from tutorial? lesson 2 - black triangle*/}
+          <div
+            className="relative w-0 h-0 border-l-[15px] border-r-[15px] border-b-[26px] border-l-transparent border-r-transparent border-b-black"
+          />
+
           <p className={`text-xl text-gray-800 md:text-3xl md:leading-normal`}>
             <strong>Welcome to Acme.</strong> This is the example for the{' '}
             <a href="https://nextjs.org/learn/" className="text-blue-500">
@@ -26,6 +31,7 @@ export default function Page() {
             , brought to you by Vercel.
           </p> 
           {/* className={`${inter.className} antialiased`} */}
+          {/* <p className={`${lusitana.className} text-xl text-gray-800 md:text-3xl md:leading-normal`}></p> */}
           <h1 className={`${inter.className} antialiased text-red-500`}>I&#39;m red!</h1>
           <h1 className={`${lusitana.className} text-orange-500`}>I&#39;m orange!</h1>
           <h1 className={`${pacifico.className} text-yellow-500`}>I&#39;m yellow!</h1>

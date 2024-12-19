@@ -19,7 +19,8 @@ export default function EditInvoiceForm({
   customers: CustomerField[];
 }) {
   const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
-console.log('up', updateInvoiceWithId);
+console.log('update invoice with id: ', updateInvoiceWithId);
+
   return (
     //cannot pass like action={updateInvoice(id)} pass using js bind ^ also encoded
     <form action={updateInvoiceWithId}>

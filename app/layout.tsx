@@ -1,6 +1,6 @@
 import '@/app/ui/global.css';
 //any fonts of ui added here will go all pages
-//import { inter } from '@/app/ui/fonts';
+// import { inter } from '@/app/ui/fonts';
 
 export default function RootLayout({
   children,
@@ -10,6 +10,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       {/* className={`${inter.className} antialiased`} */}
+      {/* lesson 3 */}
+      {/* <body className={`${inter.className} antialiased`}>{children}</body> */}
       <body>{children}</body>
     </html>
   );
