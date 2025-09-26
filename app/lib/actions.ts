@@ -9,7 +9,7 @@ import { error } from 'console';
 
 const FormSchema = z.object({
     id: z.string(),
-    customerId: z.string({ //chapter 14 validation
+    customerId: z.string({ //chapter 14 validation zod
       invalid_type_error: 'Please select valid customer.',
     }),
     amount: z.coerce.number().gt(0, { message: 'Please enter minimum amount of $0'}),
@@ -46,7 +46,7 @@ export async function createInvoice(State: State, formData: FormData) {
       //console.log(rawFormData);
       //console.log(typeof rawFormData.amount);
 console.log(validatedFields);
-      //chapter 14
+      //chapter 14 - return errors early
       if (!validatedFields.success){
         return{
           errors: validatedFields.error.flatten().fieldErrors,
@@ -61,11 +61,15 @@ console.log(validatedFields);
       // "YYYY-MM-DD" format
 
       //insert new invoice + pass variables
-      //hm on the sql in try catch yolo
-      await sql`
+      try{//hm on the sql in try catch yolo
+await sql`
           INSERT INTO invoices (customer_id, amount, status, date)
           VALUES (${customerId}, ${amountInCents}, ${status}, ${date})
         `;
+      } catch(error){
+console.log('CreateInvoice: Database Error.')
+      }
+      
     } 
     catch(e) {
       console.log('createInvoice Error: ', e);
@@ -79,14 +83,23 @@ console.log(validatedFields);
     
 }
 
-export async function updateInvoice(id: string, formData: FormData) {
+export async function updateInvoice(id: string, formData: FormData): Promise<State> {
     console.log('update invoice action')
-    const { customerId, amount, status } = UpdateInvoice.parse({
+    //const { customerId, amount, status } = UpdateInvoice.parse({
+    const validatedUpdateFields = UpdateInvoice.safeParse({
       customerId: formData.get('customerId'),
       amount: formData.get('amount'),
       status: formData.get('status'),
     });
-   
+
+    if (!validatedUpdateFields.success){
+        return{
+          errors: validatedUpdateFields.error.flatten().fieldErrors,
+          message: 'Missing Fields. updateInvoice Error.',
+        };
+      }
+
+    const { customerId, amount, status } = validatedUpdateFields?.data;
     const amountInCents = amount * 100;
    
     try {
@@ -100,6 +113,10 @@ export async function updateInvoice(id: string, formData: FormData) {
     }
     catch (e){
       console.log('updateInvoice Error: ', e);
+      return {
+      message: 'Database update failed.',
+      errors: {},
+    };
     }
    
     redirect('/dashboard/invoices');
