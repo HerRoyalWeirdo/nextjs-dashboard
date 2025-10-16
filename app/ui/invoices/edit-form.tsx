@@ -29,6 +29,7 @@ export default function EditInvoiceForm({
 // ) as (formData: FormData) => Promise<State>;
   //const updateInvoiceWithId = updateInvoice.bind(null, invoice.id);
   //const [state, formAction] = useState(updateInvoiceWithId);
+  //const [state, formAction] = useActionState(updateInvoiceWithId, initialState);
 //thank you chatgpt to finish chapter 14
   const [state, setState] = useState<State>(initialState);
 

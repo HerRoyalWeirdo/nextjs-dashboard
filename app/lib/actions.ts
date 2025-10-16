@@ -108,8 +108,8 @@ export async function updateInvoice(id: string, formData: FormData): Promise<Sta
           SET customer_id = ${customerId}, amount = ${amountInCents}, status = ${status}
           WHERE id = ${id}
         `;
-      revalidatePath('/dashboard/invoices');
-        console.log('updateInvoice Success');
+      // revalidatePath('/dashboard/invoices');
+      //   console.log('updateInvoice Success');
     }
     catch (e){
       console.log('updateInvoice Error: ', e);
