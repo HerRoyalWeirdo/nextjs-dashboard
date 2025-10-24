@@ -6,6 +6,8 @@ import { sql } from '@vercel/postgres';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { error } from 'console';
+import { signIn } from '@/auth';
+import { AuthError } from 'next-auth';
 
 const FormSchema = z.object({
     id: z.string(),
@@ -109,7 +111,7 @@ export async function updateInvoice(id: string, formData: FormData): Promise<Sta
           WHERE id = ${id}
         `;
       // revalidatePath('/dashboard/invoices');
-      //   console.log('updateInvoice Success');
+      //   console.log('updateInvoice Success'); 
     }
     catch (e){
       console.log('updateInvoice Error: ', e);
@@ -134,9 +136,29 @@ export async function deleteInvoice(id: string) {
   catch(e) {
     console.log('deleteInvoice Error: ', e);
   }
-
-   
 }
+
+export async function authenticate(
+  prevState: string | undefined,
+  formData: FormData,
+){
+
+try {
+  await signIn('credentials', formData);
+} catch (error) {
+  if (error instanceof AuthError) {
+    switch (error.type) {
+      case 'CredentialsSignin':
+      return 'invalid creds';
+      default:
+      return 'where"s wally';
+    }
+  }
+  throw error;
+}
+
+}
+
 
 //Tip: If you're working with forms that have many fields, you may want to consider using 
 //the entries() method with JavaScript's Object.fromEntries(). For example:
